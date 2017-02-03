@@ -1,6 +1,7 @@
 package com.github.srang.ca.sim;
 
 import com.github.srang.ca.model.Canvas;
+import com.github.srang.ca.model.Cell;
 
 /**
  * Created by srang on 2/2/17.
@@ -14,6 +15,18 @@ public class Simulation {
         this.name = name;
 
         /* todo initialize cells & define simulation function */
+    }
+
+    public Canvas process() {
+        for (int w = 0; w < canvas.getWidth(); w++ ) {
+            for (int h = 0; h < canvas.getHeight(); h++) {
+                Cell cell = canvas.getCells().get(w).get(h);
+                Integer value = cell.getValue();
+                cell.setValue(h+w);
+                canvas.getCells().get(w).set(h, cell);
+            }
+        }
+        return this.canvas;
     }
 
     public Canvas getCanvas() {

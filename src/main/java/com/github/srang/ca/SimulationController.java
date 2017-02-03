@@ -10,17 +10,15 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @Log
-public class GreetingController {
+public class SimulationController {
     Simulation simulation;
 
     @MessageMapping("/simulate")
     @SendTo("/topic/cells")
-    public Canvas greeting(SimForm simRequest) throws Exception {
-        log.info(simRequest.toString());
-        Thread.sleep(1000); // simulated delay
+    public Canvas simulate(SimForm simRequest) throws Exception {
         Canvas canvas = new Canvas(simRequest.getWidth(), simRequest.getHeight());
         this.simulation = new Simulation(canvas, simRequest.getSimulation());
         return canvas;
     }
-
+    
 }

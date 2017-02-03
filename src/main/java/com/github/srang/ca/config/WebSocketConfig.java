@@ -1,4 +1,4 @@
-package com.github.srang.ca;
+package com.github.srang.ca.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

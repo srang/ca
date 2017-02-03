@@ -11,6 +11,9 @@ public class Canvas {
     private Integer width;
     private List<List<Cell>> cells;
 
+    public Canvas(){
+    }
+
     public Canvas(Integer width, Integer height) {
         this.height = height;
         this.width = width;
