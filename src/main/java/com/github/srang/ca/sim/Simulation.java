@@ -1,32 +1,21 @@
 package com.github.srang.ca.sim;
 
 import com.github.srang.ca.model.Canvas;
-import com.github.srang.ca.model.Cell;
 
 /**
  * Created by srang on 2/2/17.
  */
 public class Simulation {
     private Canvas canvas;
-    private String name;
+    private ProcessStrategy processStrategy;
 
-    public Simulation(Canvas canvas, String name) {
+    public Simulation(Canvas canvas, ProcessStrategy processStrategy) {
         this.canvas = canvas;
-        this.name = name;
-
-        /* todo initialize cells & define simulation function */
+        this.processStrategy = processStrategy;
     }
 
     public Canvas process() {
-        for (int w = 0; w < canvas.getWidth(); w++ ) {
-            for (int h = 0; h < canvas.getHeight(); h++) {
-                Cell cell = canvas.getCells().get(w).get(h);
-                Integer value = cell.getValue();
-                cell.setValue(h+w);
-                canvas.getCells().get(w).set(h, cell);
-            }
-        }
-        return this.canvas;
+        return this.processStrategy.process(this.canvas);
     }
 
     public Canvas getCanvas() {
@@ -37,19 +26,19 @@ public class Simulation {
         this.canvas = canvas;
     }
 
-    public String getName() {
-        return name;
+    public ProcessStrategy getProcessStrategy() {
+        return processStrategy;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProcessStrategy(ProcessStrategy processStrategy) {
+        this.processStrategy = processStrategy;
     }
 
     @Override
     public String toString() {
         return "Simulation{" +
                 "canvas=" + canvas +
-                ", name='" + name + '\'' +
+                ", name='" + processStrategy.getClass().getName() + '\'' +
                 '}';
     }
 }

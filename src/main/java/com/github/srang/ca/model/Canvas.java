@@ -11,19 +11,19 @@ public class Canvas {
     private Integer width;
     private List<List<Cell>> cells;
 
-    public Canvas(){
+    public Canvas() {
     }
 
-    public Canvas(Integer width, Integer height) {
+    public Canvas(Integer height, Integer width) {
         this.height = height;
         this.width = width;
         this.cells = new ArrayList<>();
-        for (int w = 0; w < width; w++ ) {
+        for (int h = 0; h < height; h++) {
             List<Cell> temp = new ArrayList<>();
-            for (int h = 0; h < height; h++) {
-                temp.add(h, new Cell(1));
+            for (int w = 0; w < width; w++) {
+                temp.add(w, new Cell(1));
             }
-            this.cells.add(w, temp);
+            this.cells.add(h, temp);
         }
     }
 

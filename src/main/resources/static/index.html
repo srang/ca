@@ -23,10 +23,14 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="simulation">What simulation will you run</label>
-                    <input type="text" id="simulation" class="form-control" placeholder="Default Simulation">
+                    <select class="form-control" id="simulation">
+                        <option value="fire">Spreading Fire</option>
+                        <option value="index">Index</option>
+                    </select>
                 </div>
 
                 <button id="start" class="btn btn-success pull-right" type="submit">Start</button>
+                <button id="propagate" class="btn btn-success pull-right" type="submit">Progress</button>
             </div>
         </div>
         <div class="row">

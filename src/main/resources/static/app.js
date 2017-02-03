@@ -22,6 +22,10 @@ function connect() {
     });
 }
 
+function propagate() {
+    stompClient.send("/app/propagate", {}, JSON.stringify({}));
+}
+
 function disconnect() {
     if (stompClient != null) {
         stompClient.disconnect();
@@ -37,9 +41,9 @@ function disconnect() {
 
 function startSimulation() {
     stompClient.send("/app/simulate", {}, JSON.stringify({
-        'simulation': $("#name").val(),
-        'width': $("#grid-w-slider").val(),
-        'height': $("#grid-h-slider").val()
+        'simulation': $("#simulation").val(),
+        'height': $("#grid-h-slider").val(),
+        'width': $("#grid-w-slider").val()
     }));
 }
 
@@ -51,10 +55,10 @@ function render(canvas) {
     /* todo make this better */
     var text = "";
     var cells = canvas.cells;
-    cells.forEach(function (row) {
+    cells.forEach(function (row, h) {
         text += "<tr>";
-        row.forEach(function (cell) {
-            text += '<td class="col-md-1 cell-content">' + canvas.cells[0][0].value + '</td>';
+        row.forEach(function (cell, w) {
+            text += '<td class="col-md-1 cell-content">' + canvas.cells[h][w].value + '</td>';
         });
         text += "</tr>";
 
@@ -69,6 +73,7 @@ $(function () {
     });
     $( "#reset" ).click(function() { reset(); });
     $( "#start" ).click(function() { startSimulation(); });
+    $("#propagate").click(function () { propagate(); });
     $('#grid-h-slider').slider({
         formatter: function(value) {
             return value + " cells";
