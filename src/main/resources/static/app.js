@@ -1,25 +1,23 @@
 var stompClient = null;
 
 function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
     if (connected) {
-        $("#conversation").show();
+        $("#board").show();
     }
     else {
-        $("#conversation").hide();
+        $("#board").hide();
     }
-    $("#greetings").html("");
+    $("#cells").html("");
 }
 
 function connect() {
-    var socket = new SockJS('/gs-guide-websocket');
+    var socket = new SockJS('/cell-auto-socket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
+        stompClient.subscribe('/topic/cells', function (canvas) {
+            showCell(JSON.parse(canvas.body));
         });
     });
 }
@@ -32,20 +30,54 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+// function reset() {
+//     disconnect();
+//     connect();
+// }
+
+function startSimulation() {
+    stompClient.send("/app/simulate", {}, JSON.stringify({
+        'simulation': $("#name").val(),
+        'width': $("#grid-w-slider").val(),
+        'height': $("#grid-h-slider").val()
+    }));
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function showCell(canvas) {
+    $("#cells").html(render(canvas))
+}
+
+function render(canvas) {
+    /* todo make this better */
+    var text = "";
+    var cells = canvas.cells;
+    cells.forEach(function (row) {
+        text += "<tr>";
+        row.forEach(function (cell) {
+            text += '<td class="col-md-1 cell-content">' + canvas.cells[0][0].value + '</td>';
+        });
+        text += "</tr>";
+
+    });
+    return text;
 }
 
 $(function () {
+    connect();
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    $( "#reset" ).click(function() { reset(); });
+    $( "#start" ).click(function() { startSimulation(); });
+    $('#grid-h-slider').slider({
+        formatter: function(value) {
+            return value + " cells";
+        }
+    });
+    $('#grid-w-slider').slider({
+        formatter: function(value) {
+            return value + " cells";
+        }
+    });
 });
 
