@@ -27,6 +27,25 @@ public class Canvas {
         }
     }
 
+    public void setCell(Integer height, Integer width, Cell cell) {
+        this.cells.get(height).set(width, cell);
+    }
+
+
+    /**
+     * The reason this is bad is that it breaks the concept of _encapsulation_ which is the idea that we can hide or abstract
+     * things within the objects we write. So for example, what if we wanted to change the structure of cell to contain
+     * a String instead of an integer? In the method above we would have no problem because te data of a cell is encapsulated
+     * within the Cell class, but this method below would break
+     * 
+     * @param height
+     * @param width
+     * @param value
+     */
+    public void setCellBad(Integer height, Integer width, Integer value) {
+        this.cells.get(height).get(width).setValue(value);
+    }
+
     public Integer getHeight() {
         return height;
     }
