@@ -21,7 +21,7 @@ public class SimulationController {
     public Canvas simulate(SimForm simRequest) {
         Canvas canvas = new Canvas(simRequest.getHeight(), simRequest.getWidth());
         ProcessStrategy strategy;
-        if(simRequest.equals("index")) {
+        if(simRequest.getSimulation().equals("index")) {
             strategy = new IndexProcessStrategy();
         } else {
             strategy = new SpreadingFireProcessStrategy();
