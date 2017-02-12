@@ -2,9 +2,10 @@ package com.github.srang.ca;
 
 import com.github.srang.ca.model.Canvas;
 import com.github.srang.ca.model.SimForm;
+import com.github.srang.ca.model.SimulationFactory;
 import com.github.srang.ca.sim.IndexProcessStrategy;
 import com.github.srang.ca.sim.ProcessStrategy;
-import com.github.srang.ca.sim.Simulation;
+import com.github.srang.ca.model.Simulation;
 import com.github.srang.ca.sim.SpreadingFireProcessStrategy;
 import lombok.extern.java.Log;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -26,7 +27,7 @@ public class SimulationController {
         } else {
             strategy = new SpreadingFireProcessStrategy();
         }
-        this.simulation = new Simulation(canvas, strategy);
+        this.simulation = SimulationFactory.build(canvas, strategy);
         return this.simulation.process();
     }
 
