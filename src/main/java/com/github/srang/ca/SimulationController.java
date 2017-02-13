@@ -6,6 +6,7 @@ import com.github.srang.ca.sim.IndexProcessStrategy;
 import com.github.srang.ca.sim.ProcessStrategy;
 import com.github.srang.ca.sim.Simulation;
 import com.github.srang.ca.sim.SpreadingFireProcessStrategy;
+import com.github.srang.ca.sim.TimerProcessStrategy;
 import lombok.extern.java.Log;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -23,8 +24,10 @@ public class SimulationController {
         ProcessStrategy strategy;
         if(simRequest.getSimulation().equals("index")) {
             strategy = new IndexProcessStrategy();
-        } else {
+        } else if(simRequest.getSimulation().equals("fire")) {
             strategy = new SpreadingFireProcessStrategy();
+        }else {
+            strategy = new TimerProcessStrategy();
         }
         this.simulation = new Simulation(canvas, strategy);
         return this.simulation.process();
